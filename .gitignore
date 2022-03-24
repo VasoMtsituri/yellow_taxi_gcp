@@ -19,3 +19,4 @@ airflow/airflow.cfg
 airflow/airflow.db
 airflow/webserver_config.py
 airflow/logs
+partitions
