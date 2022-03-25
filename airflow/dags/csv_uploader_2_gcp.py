@@ -1,16 +1,16 @@
 import sys
-sys.path.append('../yellow_taxi_gcp')
-
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+
 from utils.gcp import upload_file_2_bucket
 
+sys.path.append('../yellow_taxi_gcp')
 
 with DAG(
         'GCP_Uploader',
-        schedule_interval=timedelta(days=1),
+        schedule_interval='0 11 * * *',
         start_date=datetime(2021, 3, 25),
         description='Upload files in GCP Bucket',
         catchup=False,
