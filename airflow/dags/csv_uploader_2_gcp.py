@@ -1,13 +1,13 @@
 import sys
+sys.path.append('../yellow_taxi_gcp')
+
 from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 from utils.gcp import upload_file_2_bucket
-from utils.helper import file_checker
-
-sys.path.append('../yellow_taxi_gcp')
+from utils.helper import file_checker, save_index
 
 with DAG(
         dag_id='GCP_Uploader',
@@ -21,7 +21,14 @@ with DAG(
         python_callable=file_checker,
         provide_context=True
     )
+    index_saver = PythonOperator(
+        task_id='index_saver',
+        python_callable=save_index
+    )
     csv_uploader = PythonOperator(
         task_id='csv_uploader',
         python_callable=upload_file_2_bucket
     )
+
+file_checker >> index_saver
+file_checker >> csv_uploader

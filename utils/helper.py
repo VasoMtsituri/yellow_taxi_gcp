@@ -51,6 +51,7 @@ def file_checker():
 def save_index(**kwargs):
     filename = 'indices.txt'
     ti = kwargs['ti']
-
-    write_into_file(filename, ti)
+    index = ti.xcom_pull(task_ids='file_checker')
+    data = str(index[0]) + ' '
+    write_into_file(filename, data)
    

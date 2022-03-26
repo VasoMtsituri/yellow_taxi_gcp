@@ -1,15 +1,17 @@
 import os
-import sys
+
 from google.cloud import storage
-from constants import GCP_CREDS
+from .constants import GCP_CREDS
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = GCP_CREDS
 
-sys.path.append('../yellow_taxi_gcp')
 
+def upload_file_2_bucket(**kwargs):
+    ti = kwargs['ti']
+    filename = ti.xcom_pull(task_ids='file_checker')
+    csv_filename = filename[1]
 
-def upload_file_2_bucket(bucket, source_file_name, destination_blob_name):
     storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket)
-    blob = bucket.blob(destination_blob_name)
-    blob.upload_from_filename(source_file_name)
+    bucket = storage_client.bucket('yellow_taxi_data_nyc')
+    blob = bucket.blob(csv_filename)
+    blob.upload_from_filename(f'partitions/{csv_filename}')
