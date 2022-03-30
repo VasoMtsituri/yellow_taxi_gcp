@@ -24,7 +24,7 @@ def connect_2_psql():
     db_socket_dir = os.environ.get("DB_SOCKET_DIR", "/cloudsql")
     instance_connection_name = 'seismic-hope-345015:europe-west3:yellow-taxi-2015'
 
-    # url = "postgresql+pg8000://{db_user}:{db_pass}@/{db_name}#?unix_sock={db_socket_dir}/{instance_connection_name}/.s.PGSQL.5432"
+    # url = f"postgresql+pg8000://{db_user}:{db_pass}@/{db_name}?unix_sock={db_socket_dir}/{instance_connection_name}/.s.PGSQL.5432"
 
     # engine = create_engine('postgresql+psycopg2://{db_user}:{db_pass}@{instance_connection_name}/{db_name}')
 
